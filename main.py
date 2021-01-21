@@ -39,9 +39,14 @@ btn_no = Button(color.RED, Point(150, 100))
 
 running = True
 while running:
+    screen.fill(color.BLACK) # Заливка экрана черным цветом
     clock.tick(FPS)
     for event in pg.event.get():
         if event.type == pg.QUIT:
             running = False
+            
+    btn_yes.draw() # Рисование кнопки 
+    btn_no.draw()
+    pg.display.update()
 
 pg.quit()
