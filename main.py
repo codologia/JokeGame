@@ -34,19 +34,26 @@ class Button:
         C = Point(self.pos.x + self.width, self.pos.y + self.height)
         return A.x <= point.x <= C.x and A.y <= point.y <= C.y
 
-btn_yes = Button(color.RED, Point(50, 100))
-btn_no = Button(color.RED, Point(150, 100))
+btn_yes = Button(color.RED, Point(50, 100)) # Создание кнопки YES
+btn_no = Button(color.RED, Point(150, 100)) # Создание кнопки NO
 
 running = True
 while running:
     screen.fill(color.BLACK) # Заливка экрана черным цветом
     clock.tick(FPS)
+    
     for event in pg.event.get():
         if event.type == pg.QUIT:
             running = False
+        # Взаимодействие с пользователем
+        if event.type == pg.MOUSEMOTION:
+            mouse_pos = Point(event.pos[0], event.pos[1]) # Позиция мышки
+            # Если мышка попала на кнопку
+            if btn_no.is_in(mouse_pos):
+                pass
             
-    btn_yes.draw() # Рисование кнопки 
-    btn_no.draw()
-    pg.display.update()
+    btn_yes.draw() # Рисование кнопки YES
+    btn_no.draw()  # Рисование кнопки NO
+    pg.display.update() # Перерисока экрана
 
 pg.quit()
