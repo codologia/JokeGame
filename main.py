@@ -8,7 +8,8 @@ pg.init()
 screen = pg.display.set_mode((640, 480))
 clock = pg.time.Clock()
 
-font = pg.font.SysFont('arial', 36)
+font = pg.font.SysFont('arial', 30)
+text_question = font.render('Ты доволен зарплатой?', True, color.BLACK)
 text_yes = font.render('YES', True, color.BLACK)
 text_no = font.render('NO', True, color.BLACK)
 
@@ -63,6 +64,7 @@ while running:
                 # Задать кнопке новую позицию
                 btn_no.jumpto(Point(rnd.randint(50, 250), rnd.randint(50, 250)))
             
+    screen.blit(text_question, (50, 10))
     btn_yes.draw() # Рисование кнопки YES
     btn_no.draw()  # Рисование кнопки NO
     pg.display.update() # Перерисока экрана
