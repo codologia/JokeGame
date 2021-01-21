@@ -1,5 +1,6 @@
 import pygame as pg
 import Colors as color
+import random as rnd
 
 FPS = 30
 
@@ -53,7 +54,7 @@ while running:
             mouse_pos = Point(event.pos[0], event.pos[1]) # Позиция мышки
             # Если мышка попала на кнопку
             if btn_no.is_in(mouse_pos):
-                btn_no.jumpto(Point(200, 250))
+                btn_no.jumpto(Point(rnd.randint(50, 250), rnd.randint(50, 250)))
             
     btn_yes.draw() # Рисование кнопки YES
     btn_no.draw()  # Рисование кнопки NO
