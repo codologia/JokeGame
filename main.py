@@ -1,10 +1,18 @@
 import pygame as pg
+import Colors as color
 
 FPS = 30
 
 pg.init()
 screen = pg.display.set_mode((640, 480))
 clock = pg.time.Clock()
+
+# Класс, который описывает любую точку
+class Point:
+    x = 0; y = 0
+    def __init__(self, x, y):
+        self.x = x
+        self.y = y
 
 # Класс, который описывает любую кнопку
 class Button:
@@ -25,6 +33,9 @@ class Button:
         A = self.pos
         C = Point(self.pos.x + self.width, self.pos.y + self.height)
         return A.x <= point.x <= C.x and A.y <= point.y <= C.y
+
+btn_yes = Button(color.RED, Point(50, 100))
+btn_no = Button(color.RED, Point(150, 100))
 
 running = True
 while running:
