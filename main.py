@@ -13,6 +13,12 @@ text_question = font.render('Ты доволен зарплатой?', True, col
 text_yes = font.render('YES', True, color.BLACK)
 text_no = font.render('NO', True, color.BLACK)
 
+# Структура, которая хранит номера кнопок
+class MouseButton:
+    LEFT = 1
+    MIDDLE = 2
+    RIGHT = 3
+
 # Класс, который описывает любую точку
 class Point:
     x = 0; y = 0
@@ -30,7 +36,8 @@ class Button:
         self.position = position
         self.width = width
         self.height = height
-        state = Button.UP # Состояние кнопки
+        self.state = Button.UP # Состояние кнопки
+        self.is_over = False
     
     def draw(self):
         pg.draw.rect(screen, self.color, (self.position.x, self.position.y,
@@ -53,17 +60,30 @@ while running:
     screen.fill(color.WHITE) # Заливка экрана черным цветом
     clock.tick(FPS)
     
-    for event in pg.event.get():
+    listEvents = pg.event.get() # Список событий пользовател в программе
+    for event in listEvents:
         if event.type == pg.QUIT:
             running = False
         # Взаимодействие с пользователем
+        # MOUSEMOTION - событие перемещения мышки
         if event.type == pg.MOUSEMOTION:
             mouse_pos = Point(event.pos[0], event.pos[1]) # Позиция мышки
-            # Если мышка попала на кнопку
+            # Если мышка попала на кнопку NO
             if btn_no.is_in(mouse_pos):
                 # Задать кнопке новую позицию
                 btn_no.jumpto(Point(rnd.randint(50, 250), rnd.randint(50, 250)))
-            
+            # Попала ли мышка на кнопку YES
+            if btn_yes.is_in(mouse_pos):
+                btn_yes.is_over = True # Мышка над кнопкой
+            else:
+                btn_yes.is_over = False # Мышка ушла с кнопки
+        # MOUSEBUTTONDOWN - событие нажатие левой кнопки мышки
+        if event.type == pg.MOUSEBUTTONDOWN:
+            if event.button == MouseButton.LEFT and btn_yes.is_over == True: # Нажата ЛКМ
+                print("In Yes")
+                
+                    
+        
     screen.blit(text_question, (50, 10))
     btn_yes.draw() # Рисование кнопки YES
     btn_no.draw()  # Рисование кнопки NO
