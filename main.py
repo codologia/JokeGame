@@ -47,6 +47,7 @@ class Button:
         
     def jumpto(self, position):
         self.position = position
+        self.change_color()
 
     def is_in(self, point):
         A = self.position
@@ -57,6 +58,12 @@ class Button:
         self.position = Point(-1, -1)
         self.width = 0
         self.height = 0
+    
+    def change_color(self):
+        R = rnd.randint(0, 255)
+        G = rnd.randint(0, 255)
+        B = rnd.randint(0, 255)
+        self.color = (R, G, B)
 
 btn_yes = Button(text_yes, color.RED, Point(50, 100)) # Создание кнопки YES
 btn_no = Button(text_no, color.RED, Point(150, 100)) # Создание кнопки NO
@@ -97,10 +104,13 @@ while running:
         # Обработка каждого ответа
         if btn_yes_counter == 1: # Первый ответ
             text_question = font.render('Ты уверен?', True, color.BLACK)
+            btn_yes.color = color.GREEN
         if btn_yes_counter == 2: 
             text_question = font.render('Ты точно уверен?', True, color.BLACK)
+            btn_yes.color = color.BLUE
         if btn_yes_counter == 3:
             text_question = font.render('Не закралась ли тень сомнения?', True, color.BLACK)
+            btn_yes.color = color.GREEN
         if btn_yes_counter == 4:
             text_question = font.render('Ты отличный работник. Я в тебе не сомневался', True, color.RED)
             
