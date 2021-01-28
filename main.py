@@ -4,8 +4,12 @@ import random as rnd
 
 FPS = 30
 
+class Window:
+    WIDTH = 350
+    HEIGHT = 200
+
 pg.init()
-screen = pg.display.set_mode((640, 480))
+screen = pg.display.set_mode((Window.WIDTH, Window.HEIGHT))
 clock = pg.time.Clock()
 
 font = pg.font.SysFont('arial', 30)
@@ -65,8 +69,8 @@ class Button:
         B = rnd.randint(0, 255)
         self.color = (R, G, B)
 
-btn_yes = Button(text_yes, color.RED, Point(50, 100)) # Создание кнопки YES
-btn_no = Button(text_no, color.RED, Point(150, 100)) # Создание кнопки NO
+btn_yes = Button(text_yes, color.RED, Point(70, 100)) # Создание кнопки YES
+btn_no = Button(text_no, color.RED, Point(170, 100)) # Создание кнопки NO
 
 btn_yes_counter = 0
 
@@ -86,7 +90,7 @@ while running:
             # Если мышка попала на кнопку NO
             if btn_no.is_in(mouse_pos):
                 # Задать кнопке новую позицию
-                btn_no.jumpto(Point(rnd.randint(50, 250), rnd.randint(50, 250)))
+                btn_no.jumpto(Point(rnd.randint(0, Window.WIDTH), rnd.randint(0, Window.HEIGHT)))
             # Попала ли мышка на кнопку YES
             if btn_yes.is_in(mouse_pos):
                 btn_yes.is_over = True # Мышка над кнопкой
@@ -109,13 +113,10 @@ while running:
             text_question = font.render('Ты точно уверен?', True, color.BLACK)
             btn_yes.color = color.BLUE
         if btn_yes_counter == 3:
-            text_question = font.render('Не закралась ли тень сомнения?', True, color.BLACK)
-            btn_yes.color = color.GREEN
-        if btn_yes_counter == 4:
-            text_question = font.render('Ты отличный работник. Я в тебе не сомневался', True, color.RED)
+            text_question = font.render('Я очень рад', True, color.RED)
             
     screen.blit(text_question, (50, 10))
-    if btn_yes_counter < 4:
+    if btn_yes_counter < 3:
         btn_yes.draw() # Рисование кнопки YES
         btn_no.draw()  # Рисование кнопки NO
     else:
