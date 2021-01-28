@@ -15,9 +15,9 @@ text_no = font.render('NO', True, color.BLACK)
 
 # Структура, которая хранит номера кнопок
 class MouseButton:
-    LEFT = 1
+    LEFT   = 1
     MIDDLE = 2
-    RIGHT = 3
+    RIGHT  = 3
 
 # Класс, который описывает любую точку
 class Point:
@@ -38,6 +38,7 @@ class Button:
         self.height = height
         self.state = Button.UP # Состояние кнопки
         self.is_over = False
+        self.is_click = False
     
     def draw(self):
         pg.draw.rect(screen, self.color, (self.position.x, self.position.y,
@@ -51,9 +52,16 @@ class Button:
         A = self.position
         C = Point(self.position.x + self.width, self.position.y + self.height)
         return A.x <= point.x <= C.x and A.y <= point.y <= C.y
+    
+    def delete(self):
+        self.position = Point(-1, -1)
+        self.width = 0
+        self.height = 0
 
 btn_yes = Button(text_yes, color.RED, Point(50, 100)) # Создание кнопки YES
 btn_no = Button(text_no, color.RED, Point(150, 100)) # Создание кнопки NO
+
+btn_yes_counter = 0
 
 running = True
 while running:
@@ -80,13 +88,30 @@ while running:
         # MOUSEBUTTONDOWN - событие нажатие левой кнопки мышки
         if event.type == pg.MOUSEBUTTONDOWN:
             if event.button == MouseButton.LEFT and btn_yes.is_over == True: # Нажата ЛКМ
-                print("In Yes")
-                
-                    
-        
+                btn_yes.is_click = True
+    
+    # Обработка нажатий
+    if btn_yes.is_click == True:
+        btn_yes.is_click = False # Клик завершен
+        btn_yes_counter += 1 # Увеличиваем счетчик нажатий
+        # Обработка каждого ответа
+        if btn_yes_counter == 1: # Первый ответ
+            text_question = font.render('Ты уверен?', True, color.BLACK)
+        if btn_yes_counter == 2: 
+            text_question = font.render('Ты точно уверен?', True, color.BLACK)
+        if btn_yes_counter == 3:
+            text_question = font.render('Не закралась ли тень сомнения?', True, color.BLACK)
+        if btn_yes_counter == 4:
+            text_question = font.render('Ты отличный работник. Я в тебе не сомневался', True, color.RED)
+            
     screen.blit(text_question, (50, 10))
-    btn_yes.draw() # Рисование кнопки YES
-    btn_no.draw()  # Рисование кнопки NO
+    if btn_yes_counter < 4:
+        btn_yes.draw() # Рисование кнопки YES
+        btn_no.draw()  # Рисование кнопки NO
+    else:
+        btn_yes.delete() # Рисование кнопки YES
+        btn_no.delete()  # Рисование кнопки NO
+    
     pg.display.update() # Перерисока экрана
 
 pg.quit()
